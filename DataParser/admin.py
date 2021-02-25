@@ -21,8 +21,8 @@ class WorldDataAdmin(admin.ModelAdmin):
         if request.method == 'POST':
             form = ExcelForm(request.POST, request.FILES)
             if form.is_valid():
-                self.message_user(request, "Succesful import.", messages.SUCCESS)
-                parse_excel(form.cleaned_data)
+                updated, errors = parse_excel(form.cleaned_data)
+                self.message_user(request, f"Succesful import. Updated {updated} / {updated + errors} rows.", messages.SUCCESS)
                 return redirect('..')
             else:
                 self.message_user(request, "File type not supported.", messages.ERROR)
