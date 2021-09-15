@@ -37,3 +37,8 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 node_modules/
+
+#custom
+bin/
+lib/
+pyvenv.cfg
