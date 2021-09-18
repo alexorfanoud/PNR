@@ -22,8 +22,7 @@ export default function LineChart({pk}) {
 
 		chart.current = am4core.create("chartdiv", am4charts.XYChart);
 		chart.current.hiddenState.properties.opacity = 0;
-
-		fetch('http://localhost:8000/api/pk/'+pk)
+		fetch('http://localhost:8000/api/pk/8')
 			.then(response => response.json())
 			.then(data => {
 				console.log(data)
@@ -37,23 +36,27 @@ export default function LineChart({pk}) {
 			.catch(e => console.log(e));
 
 		let categoryAxis = chart.current.xAxes.push(new am4charts.CategoryAxis());
-		categoryAxis.renderer.grid.template.location = 0;
+		// categoryAxis.renderer.grid.template.location = 0;
 		categoryAxis.dataFields.category = "year";
-		categoryAxis.renderer.minGridDistance = 40;
+		categoryAxis.title.text = "Year";
+		// categoryAxis.renderer.minGridDistance = 40;
 		categoryAxis.fontSize = 11;
 
 		let valueAxis = chart.current.yAxes.push(new am4charts.ValueAxis());
 		valueAxis.min = 0;
 		valueAxis.max = maxVal;
-		valueAxis.strictMinMax = true;
-		valueAxis.renderer.minGridDistance = 30;
+		valueAxis.title.text = "Value";
+		valueAxis.strictMinMax = false;
+		// valueAxis.renderer.minGridDistance = 30;
 
 		let series = chart.current.series.push(new am4charts.ColumnSeries());
 		series.dataFields.categoryX = "year";
 		series.dataFields.valueY = "value";
 		series.columns.template.tooltipText = "{valueY.value}";
 		series.columns.template.tooltipY = 0;
-		series.columns.template.strokeOpacity = 1;
+		series.columns.template.strokeOpacity = 0.5;
+		series.columns.template.fill = am4core.color("#00ff00");
+		series.columns.template.stroke = am4core.color("#00ff00");
 
 		// as by default columns of the same series are of the same color, we add adapter which takes colors from chart.colors color set
 		series.columns.template.adapter.add("fill", function(fill, target) {
@@ -62,11 +65,6 @@ export default function LineChart({pk}) {
     }, [maxVal]);
 
     return (
-        <div className='chart'>
-			variable:{variable}
-			model:{model}
-			scenario:{scenario}
-            <div ref={chart} id="chartdiv" style={{ width: "100%", height: "500px" }} />
-        </div>
+            <div ref={chart} className="chartdiv" />
     )
 }

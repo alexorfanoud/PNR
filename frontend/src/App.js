@@ -5,10 +5,8 @@ function App() {
   return (
     <div className="App">
       Hello world app
-      <div>
       <LineChart pk={3}/>
       {/* <LineChart pk={4}/> */}
-      </div>
       
 
     </div>
